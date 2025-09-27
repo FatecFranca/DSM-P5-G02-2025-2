@@ -6,8 +6,12 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./config/firebase-key.json');
 const mongose = require('mongoose');
 
+
 // Rota de login papum
 const authRoutes = require('./routes/auth.routes');
+// Rota de aiaiaiai
+const detectionRoutes = require('./routes/detection.routes');
+const dashboardRoutes = require('./routes/dashboard.routes');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -17,11 +21,9 @@ const app = express();
 const server = http.createServer(app);
 
 
-const upload = multer();
 
 const PORT = process.env.PORT || 3000;
 
-const FLASK_API_URL = 'http://localhost:5000/detect';
 
 app.use(express.json());
 
@@ -30,6 +32,9 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use('/detection', detectionRoutes);
+app.use('/dashboard', dashboardRoutes);
+
 
 
 server.listen(PORT, () => {
@@ -37,6 +42,6 @@ server.listen(PORT, () => {
 });
 
 mongose.connect('mongodb://localhost:27017/pi', {  // Substitua 'seu_banco' pelo nome do banco
-  useNewUrlParser: true,
+  
   useUnifiedTopology: true
 }).then(() => console.log('MongoDB conectado')).catch(err => console.error(err));

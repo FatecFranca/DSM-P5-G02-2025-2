@@ -13,6 +13,6 @@
     "declaration": false,
     "moduleResolution": "node"
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "server.js", "routes/auth.routes.ts", "routes/dashboard.routes.ts", "routes/detection.routes.ts"],
   "exclude": ["node_modules", "dist"]
 }
