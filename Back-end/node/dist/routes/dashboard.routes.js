@@ -1,9 +1,9 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { Router } = require('express');
 const { getLast10Detections, getFullHistory, getDetectionDetails } = require('../controllers/Dashboard.controller');
 const { authenticateToken } = require('../middleware/auth');
-
 const router = Router();
-
 /**
  * @swagger
  * /dashboard/last10:
@@ -70,7 +70,6 @@ router.get('/last10', authenticateToken, getLast10Detections);
  *       500:
  *         description: Erro interno
  */
-
 router.get('/history', authenticateToken, getFullHistory);
 /**
  * @swagger
@@ -114,7 +113,5 @@ router.get('/history', authenticateToken, getFullHistory);
  *       500:
  *         description: Erro interno
  */
-
 router.get('/details/:id', authenticateToken, getDetectionDetails);
-
-export default router;
+exports.default = router;

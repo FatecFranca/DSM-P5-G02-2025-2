@@ -1,6 +1,8 @@
-import {Router} from 'express';
-import { register, login, googleAuth } from '../controllers/Auth.controller';
-const router = Router();
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const Auth_controller_1 = require("../controllers/Auth.controller");
+const router = (0, express_1.Router)();
 /**
  * @swagger
  * tags:
@@ -34,7 +36,7 @@ const router = Router();
  *       400:
  *         description: Erro de validação
  */
-router.post('/register', register);
+router.post('/register', Auth_controller_1.register);
 /**
  * @swagger
  * /auth/login:
@@ -77,7 +79,7 @@ router.post('/register', register);
  *       500:
  *         description: Erro interno
  */
-router.post('/login', login);
+router.post('/login', Auth_controller_1.login);
 /**
  * @swagger
  * /auth/google:
@@ -113,6 +115,5 @@ router.post('/login', login);
  *       500:
  *         description: Erro interno
  */
-router.post('/google', googleAuth);
-
-export default router;
+router.post('/google', Auth_controller_1.googleAuth);
+exports.default = router;
