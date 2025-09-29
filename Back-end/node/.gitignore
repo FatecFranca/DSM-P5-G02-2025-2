@@ -6,3 +6,4 @@ node_modules/
 node_modules/
 *.log
 config/firebase-key.json
+dist/

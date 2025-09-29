@@ -5,16 +5,11 @@ const Auth_controller_1 = require("../controllers/Auth.controller");
 const router = (0, express_1.Router)();
 /**
  * @swagger
- * tags:
- *   name: Auth
- *   description: Endpoints de autenticação e registro de usuários
- */
-/**
- * @swagger
- *  * /auth/register:
+ * /auth/register:
  *   post:
  *     summary: Registrar novo usuário
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:
@@ -42,7 +37,8 @@ router.post('/register', Auth_controller_1.register);
  * /auth/login:
  *   post:
  *     summary: Fazer login com username/email e senha
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:
@@ -85,7 +81,8 @@ router.post('/login', Auth_controller_1.login);
  * /auth/google:
  *   post:
  *     summary: Autenticar com Google usando ID Token
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:

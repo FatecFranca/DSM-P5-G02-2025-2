@@ -33,6 +33,8 @@ app.get("/", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/detection", detectionRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use(express.json());
+app.use(express.static('public'));
 
 server.listen(PORT, () => {
   console.log(`Servidor Node.js rodando na porta ${PORT}`);
@@ -47,7 +49,7 @@ const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: 'RECICLAAI - API',
+      title: 'RECICLA_AI - API',
       version: '1.0.0',
       description: 'Documentação da API do projeto de PI',
       contact: {
@@ -76,8 +78,31 @@ const swaggerOptions = {
         }
     ]
   },
-  apis: [path.resolve(__dirname, "./routes/*.ts")],
-
+apis: [path.resolve(__dirname, __dirname.includes("dist") ? "./routes/*.js" : "./routes/*.ts")],
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+ customCss: `
+    .swagger-ui .topbar {
+      background: #000000;
+      height: 70px;
+      border-bottom: 2px solid #333;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .swagger-ui .topbar::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 90px;
+      width: 200px;
+      background: url('/logo.png') no-repeat center;
+      background-size: contain;
+    }
+    .swagger-ui .topbar .link {
+      display: none;
+    }
+  `
+}));
