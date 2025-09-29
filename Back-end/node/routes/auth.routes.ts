@@ -1,18 +1,15 @@
 import {Router} from 'express';
 import { register, login, googleAuth } from '../controllers/Auth.controller';
 const router = Router();
+
+
 /**
  * @swagger
- * tags:
- *   name: Auth
- *   description: Endpoints de autenticação e registro de usuários
- */
-/**
- * @swagger
- *  * /auth/register:
+ * /auth/register:
  *   post:
  *     summary: Registrar novo usuário
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:
@@ -40,7 +37,8 @@ router.post('/register', register);
  * /auth/login:
  *   post:
  *     summary: Fazer login com username/email e senha
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:
@@ -83,7 +81,8 @@ router.post('/login', login);
  * /auth/google:
  *   post:
  *     summary: Autenticar com Google usando ID Token
- *     tags: [Auth]
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:

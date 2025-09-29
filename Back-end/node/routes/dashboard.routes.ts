@@ -1,6 +1,6 @@
-const { Router } = require('express');
-const { getLast10Detections, getFullHistory, getDetectionDetails } = require('../controllers/Dashboard.controller');
-const { authenticateToken } = require('../middleware/auth');
+import { Router } from 'express';
+import { getLast10Detections, getFullHistory, getDetectionDetails } from '../controllers/Dashboard.controller';
+import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
 
@@ -9,7 +9,8 @@ const router = Router();
  * /dashboard/last10:
  *   get:
  *     summary: Obter últimas 10 detecções do usuário
- *     tags: [Dashboard]
+ *     tags:
+ *       - Dashboard
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -40,7 +41,8 @@ router.get('/last10', authenticateToken, getLast10Detections);
  * /dashboard/history:
  *   get:
  *     summary: Obter histórico completo com médias
- *     tags: [Dashboard]
+ *     tags:
+ *       - Dashboard
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -77,7 +79,8 @@ router.get('/history', authenticateToken, getFullHistory);
  * /dashboard/details/{id}:
  *   get:
  *     summary: Obter detalhes de uma detecção específica
- *     tags: [Dashboard]
+ *     tags:
+ *       - Dashboard
  *     security:
  *       - bearerAuth: []
  *     parameters:
