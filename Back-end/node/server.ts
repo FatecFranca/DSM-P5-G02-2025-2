@@ -8,16 +8,16 @@ import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 import path from "path";
 
-const serviceAccount = require("./config/firebase-key.json");
+//const serviceAccount = require("./config/firebase-key.json");
 
 // Rota de login papum
 import authRoutes from "./routes/auth.routes";
 import detectionRoutes from "./routes/detection.routes";
 import dashboardRoutes from "./routes/dashboard.routes";
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+//admin.initializeApp({
+//  credential: admin.credential.cert(serviceAccount),
+//});
 
 const app = express();
 const server = http.createServer(app);

@@ -26,6 +26,13 @@ const router = Router();
  *                 type: string
  *                 format: binary
  *                 description: Arquivo de imagem 
+				application/json:
+					schema:
+						type: object
+						properties:
+							message:
+								type: string
+								description: Texto para classificar (usar quando o Flask for classificador de texto)
  *     responses:
  *       200:
  *         description: Detecção bem-sucedida

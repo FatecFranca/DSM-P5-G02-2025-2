@@ -19,18 +19,21 @@ export const getFullHistory = async (req: Request, res: Response) => {
   try {
     const detections = await Detection.find({ userId: user._id }).sort({ createdAt: -1 });
     const total = detections.length;
-    const reciclavelCount = detections.filter(d => d.result.reciclavel).length;
-    const organicoCount = detections.filter(d => d.result.material === 'orgânico').length;
+    const reciclavelCount = detections.filter(d => d.result && d.result.reciclavel).length;
+    const organicoCount = detections.filter(d => d.result && d.result.material === 'orgânico').length;
+    const spamCount = detections.filter(d => d.result && d.result.is_spam === true).length;
 
     const mediaReciclavel = total > 0 ? (reciclavelCount / total) * 100 : 0;
     const mediaOrganico = total > 0 ? (organicoCount / total) * 100 : 0;
+    const mediaSpam = total > 0 ? (spamCount / total) * 100 : 0;
 
     res.json({
       total,
       detections,
       medias: {
         reciclavelPercent: mediaReciclavel.toFixed(2) + '%',
-        organicoPercent: mediaOrganico.toFixed(2) + '%'
+        organicoPercent: mediaOrganico.toFixed(2) + '%',
+        spamPercent: mediaSpam.toFixed(2) + '%'
       }
     });
   } catch (error) {
