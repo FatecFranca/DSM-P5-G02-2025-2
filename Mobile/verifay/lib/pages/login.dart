@@ -96,8 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(color: Colors.black54),
                     ),
                     TextButton(
-                      onPressed: () {
-                        // depois passar um navigator para Register
+                      onPressed: () => {Navigator.pushNamed(context, '/register')
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
