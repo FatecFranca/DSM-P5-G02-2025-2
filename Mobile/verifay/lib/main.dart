@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/login.dart';
 import 'pages/regiter.dart';
 import 'pages/home_page.dart';
+import 'package:verifay/widgets/menu_bottom.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       '/':(context) => HomePage(),
       '/login': (context) => LoginPage(),
       '/register': (context) => RegisterPage(),
+      '/dashboard': (context) => NavigationMenu() ,
      }
     );
   }

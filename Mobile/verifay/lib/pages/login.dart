@@ -75,6 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamed(context, '/dashboard');
                     } else {}
                   },
                   style: ElevatedButton.styleFrom(
@@ -96,7 +97,8 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(color: Colors.black54),
                     ),
                     TextButton(
-                      onPressed: () => {Navigator.pushNamed(context, '/register')
+                      onPressed: () => {
+                        Navigator.pushNamed(context, '/register'),
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
