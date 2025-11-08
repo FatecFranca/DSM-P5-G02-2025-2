@@ -27,23 +27,23 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const { identifier, password } = req.body; 
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({$or: [{username: identifier}, {email: identifier}]});
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({message: 'Usuário não encontrado'});
+      return res.status(404).json({ message: 'Usuário não encontrado' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({message: 'Senha incorreta'});
+      return res.status(401).json({ message: 'Senha incorreta' });
     }
 
-    const token = jwt.sign({id: user._id}, JWTSecret, {expiresIn: '1d'});
-    res.status(200).json({token});
+    const token = jwt.sign({ id: user._id }, JWTSecret, { expiresIn: '1d' });
+    res.status(200).json({ token });
   } catch (error) {
     console.error('Erro ao fazer login:', error);
-    res.status(500).json({message: 'Erro ao fazer login'});
+    res.status(500).json({ message: 'Erro ao fazer login' });
   }
 };
 

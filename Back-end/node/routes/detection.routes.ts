@@ -1,16 +1,14 @@
 import { Router } from 'express';
-import multer from 'multer';
 
 import { detectWaste } from '../controllers/Detection.controller';
 import { authenticateToken } from '../middleware/auth';
-const upload = multer();
 const router = Router();
 
 /**
  * @swagger
  * /detection/detect:
  *   post:
- *     summary: Enviar imagem para detecção de lixo
+ *     summary: Classificar texto (spam) pela IA
  *     tags:
  *       - Detection
  *     security:
@@ -18,24 +16,16 @@ const router = Router();
  *     requestBody:
  *       required: true
  *       content:
- *         multipart/form-data:
+ *         application/json:
  *           schema:
  *             type: object
  *             properties:
- *               image:
+ *               message:
  *                 type: string
- *                 format: binary
- *                 description: Arquivo de imagem 
-				application/json:
-					schema:
-						type: object
-						properties:
-							message:
-								type: string
-								description: Texto para classificar (usar quando o Flask for classificador de texto)
+ *                 description: Texto para classificar (campo obrigatório)
  *     responses:
  *       200:
- *         description: Detecção bem-sucedida
+ *         description: Classificação bem-sucedida
  *         content:
  *           application/json:
  *             schema:
@@ -44,18 +34,15 @@ const router = Router();
  *                 detectionId:
  *                   type: string
  *                   example: "68d80de073b1c7446f3d2251"
- *                 imageBase64:
- *                   type: string
- *                   example: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ..."
  *                 result:
  *                   type: object
- *                   example: { "confidence": 0.45, "material": "orgânico", "reciclavel": false, "tipo": "lixo" }
+ *                   example: { "is_spam": 1, "message": "Exemplo de texto" }
  *       400:
- *         description: Nenhuma imagem enviada
+ *         description: Campo 'message' obrigatório
  *       500:
- *         description: Erro ao processar imagem
+ *         description: Erro interno
  */
-router.post('/detect', authenticateToken, upload.single('image'), detectWaste);
+router.post('/detect', authenticateToken, detectWaste);
 
 
 export default router;

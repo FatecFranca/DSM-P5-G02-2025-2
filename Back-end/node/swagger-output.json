@@ -78,7 +78,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "identifier": {
+                "email": {
                   "example": "any"
                 },
                 "password": {
@@ -133,7 +133,7 @@
     },
     "/detection/detect": {
       "post": {
-        "description": "Rota para detectar lixo via IA. O front-end deve enviar a imagem como form-data (chave: 'image').",
+        "description": "Rota para classificar texto via IA. Enviar JSON { message: string }.",
         "parameters": [
           {
             "name": "authorization",

@@ -1,7 +1,6 @@
 import express from "express";
 import http from "http";
 import axios from "axios";
-import multer from "multer";
 import admin from "firebase-admin";
 import mongoose from "mongoose";
 import swaggerJsdoc from "swagger-jsdoc";
