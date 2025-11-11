@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -7,12 +8,39 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _loading = false;
+
+  Future<void> _handleRegister() async {
+    setState(() => _loading = true);
+
+    final result = await AuthService.register(
+      _emailController.text,
+      _nameController.text,
+      _passwordController.text,
+    );
+
+    setState(() => _loading = false);
+
+    if (result['success']) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result['message'])));
+      Navigator.pushReplacementNamed(context, '/login');
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result['message'])));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Form(
@@ -24,6 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Image.asset('assets/images/logo.png', width: 150, height: 150),
                 Divider(height: 16.0, color: Colors.transparent),
                 TextFormField(
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     labelText: 'Nome',
                     labelStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -42,6 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Divider(height: 16.0, color: Colors.transparent),
                 TextFormField(
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty)
@@ -63,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Divider(height: 16.0, color: Colors.transparent),
                 TextFormField(
-                  autofocus: true,
+                  controller: _passwordController,
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -88,10 +118,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 Divider(height: 24.0, color: Colors.transparent),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                    } else {}
-                  },
+                  onPressed: _loading
+                      ? null
+                      : () {
+                          if (_formKey.currentState!.validate()) {
+                            _handleRegister();
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     foregroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -100,7 +133,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       vertical: 15,
                     ),
                   ),
-                  child: const Text('Criar conta'),
+                  child: _loading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeAlign: 0.1,
+                        )
+                      : const Text('Criar conta'),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,8 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(color: Colors.black54),
                     ),
                     TextButton(
-                      onPressed: () => {Navigator.pushNamed(context, '/login')
-                      },
+                      onPressed: () => {Navigator.pushNamed(context, '/login')},
                       style: TextButton.styleFrom(
                         foregroundColor: Theme.of(context).primaryColor,
                         textStyle: const TextStyle(fontWeight: FontWeight.bold),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -7,11 +8,34 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _identifierController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _loading = false;
+
+  Future<void> _handleLogin() async {
+    setState(() => _loading = true);
+
+    final result = await AuthService.login(
+      _identifierController.text,
+      _passwordController.text,
+    );
+
+    setState(() => _loading = false);
+
+    if (result['success']) {
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Form(
@@ -27,12 +51,11 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Divider(height: 16.0, color: Colors.transparent),
                 TextFormField(
+                  controller: _identifierController,
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null || value.isEmpty)
-                      return 'O email é obrigatorio';
-                    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                    if (!emailRegex.hasMatch(value)) return 'Email Invalido';
+                      return 'O email  é obrigatorio';
                     return null;
                   },
                   decoration: const InputDecoration(
@@ -48,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Divider(height: 16.0, color: Colors.transparent),
                 TextFormField(
-                  autofocus: true,
+                  controller: _passwordController,
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -73,10 +96,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Divider(height: 24.0, color: Colors.transparent),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: _loading ? null : () {
                     if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/dashboard');
-                    } else {}
+                      // Para testar navegação sem endpoint
+                      // Navigator.pushReplacementNamed(context, '/dashboard');
+                      _handleLogin();
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -86,7 +111,9 @@ class _LoginPageState extends State<LoginPage> {
                       vertical: 15,
                     ),
                   ),
-                  child: const Text('Entrar'),
+                  child: _loading 
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : const Text('Entrar'),
                 ),
                 Divider(height: 16.0, color: Colors.transparent),
                 Row(
