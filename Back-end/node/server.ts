@@ -35,7 +35,7 @@ app.use("/dashboard", dashboardRoutes);
 app.use(express.json());
 app.use(express.static('public'));
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor Node.js rodando na porta ${PORT}`);
 });
 
