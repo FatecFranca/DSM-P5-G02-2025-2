@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'auth_service.dart';
 
 class DashboardService {
-  static const String _baseUrl = 'http://172.172.110.130:3000';
+  static const String _baseUrl = 'http://20.206.201.3:3000';
 
   static Future<List<dynamic>> getLast10Detections() async {
     try {

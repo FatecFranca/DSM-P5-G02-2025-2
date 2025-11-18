@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const String _baseUrl = 'http://172.172.110.130:3000';
+  static const String _baseUrl = 'http://20.206.201.3:3000';
   static String? _token;
 
   static String? get token => _token;
