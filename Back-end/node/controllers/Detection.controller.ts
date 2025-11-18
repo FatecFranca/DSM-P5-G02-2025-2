@@ -3,7 +3,7 @@ import axios from 'axios';
 import Detection from '../models/Detection';
 
 // Endpoint do classificador de texto
-const FLASK_API_URL_CLASSIFY = process.env.FLASK_CLASSIFY_URL || 'http://localhost:5000/classify';
+const FLASK_API_URL_CLASSIFY = process.env.FLASK_CLASSIFY_URL || 'http://backend-ia:5000/classify';
 
 export const detectWaste = async (req: Request, res: Response) => {
   const user = (req as any).user;

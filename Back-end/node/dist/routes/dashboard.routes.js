@@ -25,7 +25,7 @@ const router = (0, express_1.Router)();
  *                 properties:
  *                   result:
  *                     type: object
- *                     example: { "confidence": 0.45, "material": "orgânico", "reciclavel": false, "tipo": "lixo" }
+ *                     example: { "is_spam": 1, "message": "Exemplo de texto" }
  *                   status:
  *                     type: string
  *                     example: "sucesso"
@@ -63,12 +63,9 @@ router.get('/last10', auth_1.authenticateToken, Dashboard_controller_1.getLast10
  *                 medias:
  *                   type: object
  *                   properties:
- *                     reciclavelPercent:
+ *                     spamPercent:
  *                       type: string
- *                       example: "40.00%"
- *                     organicoPercent:
- *                       type: string
- *                       example: "60.00%"
+ *                       example: "12.00%"
  *       500:
  *         description: Erro interno
  */
@@ -100,11 +97,9 @@ router.get('/history', auth_1.authenticateToken, Dashboard_controller_1.getFullH
  *               properties:
  *                 detectionId:
  *                   type: string
- *                 imageBase64:
- *                   type: string
  *                 result:
  *                   type: object
- *                   example: { "confidence": 0.45, "material": "orgânico", "reciclavel": false, "tipo": "lixo" }
+ *                   example: { "is_spam": 1, "message": "Exemplo de texto" }
  *                 status:
  *                   type: string
  *                   example: "sucesso"

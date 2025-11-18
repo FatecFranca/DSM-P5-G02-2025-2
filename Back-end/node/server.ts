@@ -38,11 +38,14 @@ app.use(express.static('public'));
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor Node.js rodando na porta ${PORT}`);
 });
+const MONGODB_URI = process.env.MONGO_URI;
+if (!MONGODB_URI) {
+  throw new Error("MONGO_URI não foi definida no ambiente.");
+}
 
-mongoose
-  .connect("mongodb://localhost:27017/pi")
-  .then(() => console.log("MongoDB conectado"))
-  .catch((err) => console.error(err));
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log('Conectado ao MongoDB com sucesso!'))
+  .catch((err) => console.error('Falha ao conectar ao MongoDB:', err));
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -81,27 +84,5 @@ apis: [path.resolve(__dirname, __dirname.includes("dist") ? "./routes/*.js" : ".
 };
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
- customCss: `
-    .swagger-ui .topbar {
-      background: #000000;
-      height: 70px;
-      border-bottom: 2px solid #333;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: relative;
-    }
-    .swagger-ui .topbar::before {
-      content: '';
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 90px;
-      width: 200px;
-      background: url('/logo.png') no-repeat center;
-      background-size: contain;
-    }
-    .swagger-ui .topbar .link {
-      display: none;
-    }
-  `
+
 }));

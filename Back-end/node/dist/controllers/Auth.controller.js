@@ -62,9 +62,9 @@ const register = async (req, res) => {
 };
 exports.register = register;
 const login = async (req, res) => {
-    const { identifier, password } = req.body;
+    const { email, password } = req.body;
     try {
-        const user = await User_1.default.findOne({ $or: [{ username: identifier }, { email: identifier }] });
+        const user = await User_1.default.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'Usuário não encontrado' });
         }

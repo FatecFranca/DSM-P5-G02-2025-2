@@ -36,7 +36,7 @@ router.post('/register', Auth_controller_1.register);
  * @swagger
  * /auth/login:
  *   post:
- *     summary: Fazer login com username/email e senha
+ *     summary: Fazer login com email e senha
  *     tags:
  *       - Auth
  *     requestBody:
@@ -46,12 +46,12 @@ router.post('/register', Auth_controller_1.register);
  *           schema:
  *             type: object
  *             required:
- *               - identifier
+ *               - email
  *               - password
  *             properties:
- *               identifier:
+ *               email:
  *                 type: string
- *                 description: Username ou email do usuário
+ *                 description: Email do usuário
  *                 example: "usuario@example.com"
  *               password:
  *                 type: string

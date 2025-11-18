@@ -36,7 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const DetectionSchema = new mongoose_1.Schema({
     userId: { type: String, required: true },
-    image: { type: String, required: true },
+    type: { type: String, default: 'text' },
     result: { type: Object, required: true },
     status: { type: String, default: 'sucesso' },
     createdAt: { type: Date, default: Date.now }

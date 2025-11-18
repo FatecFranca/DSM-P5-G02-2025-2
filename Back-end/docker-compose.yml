@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # Serviço 1: Back-end Node.js
+  backend-node:
+    container_name: backend-node
+    # Constrói a imagem a partir do Dockerfile na pasta ./node
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    # Define o diretório de trabalho dentro do container
+    working_dir: /usr/src/app
+    # Espelha o código local para dentro do container para hot-reload
+    volumes:
+      - ./node:/usr/src/app
+      # Volume nomeado para "proteger" o node_modules de dentro do container
+      - node_modules:/usr/src/app/node_modules
+    # Expõe a porta 3000 (ajuste se seu app rodar em outra porta)
+    ports:
+      - "3000:3000"
+    # Comando para rodar em modo de desenvolvimento (do seu package.json)
+    command: npm run dev
+    # Define a variável de ambiente para a conexão com o Mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/sua-base-de-dados
+    # Garante que o serviço 'mongo' inicie antes deste
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+  # Serviço 2: Back-end Python (IA)
+  backend-ia:
+    container_name: backend-ia
+    # Constrói a imagem a partir do Dockerfile na pasta ./IA
+    build:
+      context: ./IA
+      dockerfile: Dockerfile
+    # Define o diretório de trabalho
+    working_dir: /app
+    # Espelha o código local para hot-reload (Flask vai reiniciar sozinho)
+    volumes:
+      - ./IA:/app
+    # Expõe a porta 5000 (definida no seu app.py)
+    ports:
+      - "5000:5000"
+    # Variáveis de ambiente para o Flask rodar em modo debug
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_DEBUG=1
+    # Comando para iniciar o Flask (usa o hot-reload do modo debug)
+    command: flask run --host=0.0.0.0 --port=5000
+    networks:
+      - app-network
+
+  # Serviço 3: Banco de Dados MongoDB
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      # Expõe a porta do Mongo para o seu PC (útil para debugar com MongoDB Compass)
+      - "27017:27017"
+    volumes:
+      # Volume nomeado para persistir os dados do banco
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+# Define as redes e volumes que serão usados
+volumes:
+  mongo-data:
+  node_modules:
+
+networks:
+  app-network:
