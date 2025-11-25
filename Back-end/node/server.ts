@@ -35,8 +35,8 @@ app.use("/dashboard", dashboardRoutes);
 app.use(express.json());
 app.use(express.static('public'));
 
-server.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor Node.js rodando na porta ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
 const MONGODB_URI = process.env.MONGO_URI;
 if (!MONGODB_URI) {

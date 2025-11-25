@@ -7,22 +7,25 @@ import * as admin from 'firebase-admin';
 const JWTSecret = process.env.JWT_SECRET || 'tafaltandot';
 
 export const register = async (req: Request, res: Response) => {
-  const {username, email, name, password} = req.body;
-    try {
-    const existingUser = await User.findOne({$or: [{username}, {email}]});
+  const { email, name, password, username } = req.body;
+  try {
+    const existingUser = await User.findOne({ $or: [{ email }] });
     if (existingUser) {
-      return res.status(400).json({message: 'Username ou email já existe'});
+      return res.status(400).json({ message: ' email já existe' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({username, email, name, password: hashedPassword});
+    // username agora é opcional
+    const userData: any = { email, name, password: hashedPassword };
+    if (username) userData.username = username;
+    const user = new User(userData);
     await user.save();
 
-    const token = jwt.sign({id: user._id}, JWTSecret, {expiresIn: '1d'});
-    res.status(201).json({token});
+    const token = jwt.sign({ id: user._id }, JWTSecret, { expiresIn: '1d' });
+    res.status(201).json({ token });
   } catch (error) {
     console.error('Erro ao registrar usuário:', error);
-    res.status(500).json({message: 'Erro ao registrar usuário'});
+    res.status(500).json({ message: 'Erro ao registrar usuário' });
   }
 };
 
